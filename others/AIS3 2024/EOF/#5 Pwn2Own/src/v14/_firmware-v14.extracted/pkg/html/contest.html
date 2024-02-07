@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html style="overflow-y:hidden">
+<head>
+    <title>Kiosk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+    <script>
+        window.addEventListener('load', function() {
+            const displayType = "contestActivity"; // TODO: get the display type from the server
+
+            if (displayType == "contestActivity") {
+                document.getElementById("contestActivityDiv").classList.remove("is-hidden");
+            } else if (displayType == "image") {
+                document.getElementById("hero").classList.remove("is-hidden");
+            } else if (displayType == "scrollingText") {
+                document.getElementById("scrollingTextDiv").classList.remove("is-hidden");
+            }
+        });
+    </script>
+</head>
+<body>
+    <!-- Show the contest info -->
+    <div class="is-hidden has-background-black" style="height: 100vh" id="contestActivityDiv">
+        <iframe src="http://35.221.224.244:18888/iframe.html" frameborder="0" style="width: 100%; height: 100%"></iframe>
+    </div>
+
+    <div class="is-hidden" style="height: 100vh; background-color: #111; display: flex; align-items: center;" id="scrollingTextDiv">
+        <!-- Show the scrolling text -->
+        <style>
+            .scrolling-text {
+                font-size: 400px;
+                white-space: nowrap;
+            }
+
+            @keyframes scroll-left {
+                0% {
+                    transform: translateX(100vw);
+                }
+                100% {
+                    transform: translateX(-100%);
+                }
+            }
+
+            .neon-color-yellow { --neon-inner-color: #ffffb6; --neon-outer-color: #c2c200; }
+            .neon-color-pink { --neon-inner-color: #ffd2fb; --neon-outer-color: #bf00af; }
+            .neon-color-blue { --neon-inner-color: #cfffff; --neon-outer-color: #00cecb; }
+            .neon-color-red { --neon-inner-color: #ffcccc; --neon-outer-color: #b70000;}
+            .neon-color-green { --neon-inner-color: #ccffcc; --neon-outer-color: #00b700;}
+            .neon-color-orange { --neon-inner-color: #ffd8b1; --neon-outer-color: #c96b00;}
+
+            .neon-text {
+                font-family: 'Cute Font', 'Noto Color Emoji', sans-serif;
+                color: var(--neon-inner-color);
+                line-height: 90%;
+                text-shadow: 0 0 20px var(--neon-outer-color), 0 0 20px var(--neon-outer-color), 0 0 20px var(--neon-outer-color), 0 0 20px var(--neon-outer-color);
+            }
+        </style>
+        <script>
+            window.addEventListener('load', (event) => {
+                const scrollingText = document.querySelector(".scrolling-text");
+
+                (async () => {
+                    while (1) {
+                        const allColors = [
+                            "neon-color-yellow",
+                            "neon-color-pink",
+                            "neon-color-blue",
+                            "neon-color-red",
+                            "neon-color-green",
+                            "neon-color-orange",
+                        ];
+                        const randomColor = allColors[Math.floor(Math.random() * allColors.length)];
+                        scrollingText.classList.remove(...allColors);
+                        scrollingText.classList.add(randomColor);
+                        await new Promise(resolve => {scrollingText.addEventListener("animationiteration", resolve, {once: true})});
+                    }
+                })();
+
+                const width = scrollingText.scrollWidth;
+                const duration = width / 180;
+                scrollingText.style.animation = `scroll-left ${duration}s linear infinite`;
+            });
+        </script>
+
+        <p class="scrolling-text neon-text">
+            This is a scrolling text from right to left.
+        </p>
+    </div>
+
+    <div class="hero is-fullheight is-info is-hidden" id="hero">
+        <div class="hero-body p-0">
+
+            <div class="container is-fluid p-0" id="imageDiv">
+                <!-- Show the image -->
+                <figure class="image">
+                    <img src="https://ais3.org/eof/img/2024/2024_EOF_Banner.jpg" style="height: 100vh;">
+                </figure>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

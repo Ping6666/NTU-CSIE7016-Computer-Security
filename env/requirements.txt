@@ -1,0 +1,29 @@
+# --- requirements --- #
+
+tqdm
+
+# pwn & reverse
+
+pyelftools==0.29
+pwntools
+
+ROPgadget
+
+keystone-engine
+unicorn
+
+angr
+claripy
+
+# crypto
+
+pycryptodome
+z3-solver
+ecdsa
+
+# web
+
+Flask
+requests
+
+yapf

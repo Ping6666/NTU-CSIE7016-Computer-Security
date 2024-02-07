@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<SpecialFunctions GatExec="default">
+    <Function>
+        <Feature>Get File</Feature>
+        <Parameter>AuthenticationResponse.xml</Parameter>
+        <Parameter>%%SHA1_HMAC%%</Parameter>
+    </Function>
+</SpecialFunctions>

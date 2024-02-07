@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Components GatExec="default">
+    <Game>
+        <Name>ABC</Name>
+        <Manufacturer>A Better Company</Manufacturer>
+        <Component>
+            <Name>ABC_boot_123</Name>
+            <Checksum>0833B58888612D2A37829F44B58A63FF32933FFF</Checksum>
+        </Component>
+        <Component>
+            <Name>ABC_os_345.pkg</Name>
+            <Checksum>AEC231D3EDF4D338F1F81DBAA98742A4D6278ECB</Checksum>
+        </Component>
+        <Component>
+            <Name>ABC_game456_789_012.pkg</Name>
+            <Checksum>377938A82F5DEA976D86119C1CD5B65EE9CE2413</Checksum>
+        </Component>
+    </Game>
+</Components>

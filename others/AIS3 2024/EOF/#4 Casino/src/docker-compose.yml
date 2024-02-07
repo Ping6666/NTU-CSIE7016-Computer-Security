@@ -1,0 +1,14 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./src
+      dockerfile: ./Dockerfile
+    ports:
+      - 9999:9999
+      - 9453:15000
+      - 8000:8000
+    environment:
+        - BANK_API_BASE=http://10.102.100.2:8080
+    volumes:
+      - ./machine-token:/machine-token:ro

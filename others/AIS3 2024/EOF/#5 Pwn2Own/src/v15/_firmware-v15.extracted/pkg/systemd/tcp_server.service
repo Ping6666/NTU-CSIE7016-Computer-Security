@@ -1,0 +1,16 @@
+[Unit]
+Description=start tcp server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=eof
+Group=eof
+ExecStart=/usr/bin/tcp_server
+KillMode=process
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

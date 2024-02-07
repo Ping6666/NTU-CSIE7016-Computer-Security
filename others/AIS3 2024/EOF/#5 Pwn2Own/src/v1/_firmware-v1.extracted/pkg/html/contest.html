@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html style="overflow-y:hidden">
+<head>
+    <title>Kiosk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script>
+        window.onload = function() {
+            const displayType = "contestActivity"; // TODO: get the display type from the server
+
+            if (displayType == "contestActivity") {
+                document.getElementById("contestActivityDiv").classList.remove("is-hidden");
+            } else if (displayType == "image") {
+                document.getElementById("imageDiv").classList.remove("is-hidden");
+                document.getElementById("hero").classList.remove("is-hidden");
+            } else if (displayType == "scrollingText") {
+                document.getElementById("scrollingTextDiv").classList.remove("is-hidden");
+                document.getElementById("hero").classList.remove("is-hidden");
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Show the contest info -->
+    <div class="is-hidden has-background-black" style="height: 100vh" id="contestActivityDiv">
+        <iframe src="http://35.221.224.244:18888/iframe.html" frameborder="0" style="width: 100%; height: 100%"></iframe>
+    </div>
+
+    <div class="hero is-fullheight is-info is-hidden" id="hero">
+        <div class="hero-body p-0">
+
+            <div class="container is-fluid p-0 is-hidden" id="imageDiv">
+                <!-- Show the image -->
+                <figure class="image">
+                    <img src="https://ais3.org/eof/img/2024/2024_EOF_Banner.jpg" style="height: 100vh;">
+                </figure>
+            </div>
+
+            <div class="container is-fluid p-0 is-hidden" id="scrollingTextDiv">
+                <!-- Show the scrolling text -->
+                <style>
+                    .scrolling-text {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        /* TODO: The time of the animation should be determined by the length of the content. */
+                        animation: scroll-left 10s linear infinite;
+                    }
+
+                    @keyframes scroll-left {
+                        0% {
+                            transform: translateX(100%);
+                        }
+                        100% {
+                            transform: translateX(-100%);
+                        }
+                    }
+                </style>
+
+                <p class="title scrolling-text">
+                    This is a scrolling text from right to left.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

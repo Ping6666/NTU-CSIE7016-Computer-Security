@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <script>
+        const URL_GET_BALANCE = '{{ BANK_API_BASE + '/api/balance' }}';
+        const URL_ROUND_INFO = '{{ BANK_API_BASE + '/api/roundInfo' }}';
+        const URL_START_GAME = '{{ url_for('start_game') }}';
+        const URL_RESULT = '{{ BANK_API_BASE + '/api/game/confirm' }}';
+        const URL_GET_POOL = '{{ BANK_API_BASE + '/api/pool' }}';
+    </script>
+    <script src="{{ url_for('static', path='./hashes.min.js') }}"></script>
+    <script src="{{ url_for('static', path='./index.js') }}"></script>
+    <title>2024 EOF Casino</title>
+</head>
+<body>
+    <!-- <div x-init="startBackground($el)"></div> --> <!-- TODO: fixed z-index -->
+
+    <div class="container" x-data="app">
+        <div class="notification" :class="notificationClass" x-show="notificationContent.length > 0" x-transition>
+            <button class="delete" @click="notificationContent = ''"></button>
+            <span x-text="notificationContent"></span>
+        </div>
+
+        <!-- login if not yet -->
+        <div x-show="!userCredential">
+            <section class="section">
+                <h1 class="title has-text-centered">2024 EOF Casino</h1>
+                <h2 class="subtitle has-text-centered">Please login first.</h2>
+                <form class="block" action="javascript:void(0);">
+                    <div class="field">
+                        <label class="label">Team Token</label>
+                        <div class="control">
+                            <input class="input" type="password" placeholder="team token" x-model="teamToken" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-primary" @click="initApp" type="submit">Login</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+
+        <!-- main casino -->
+        <div x-show="userCredential">
+            <section class="section">
+                <button class="button is-warning is-inline-block is-pulled-right" @click="logout">Logout</button>
+                <h1 class="title has-text-centered">2024 EOF Casino</h1>
+                <h2 class="subtitle has-text-centered">Welcome to the 2024 EOF Casino!</h2>
+
+                <div class="is-hidden" x-init="animationManager.addAudio('{{ url_for('static', path='/spinning.mp3') }}')"></div>
+
+                <div class="block">
+                    <div class="columns is-justify-content-center">
+                        <div class="column is-narrow">
+                            <div class="tile is-ancestor">
+                                <div class="tile is-vertical is-parent">
+                                    <div class="tile is-child">
+                                        <div class="box field">
+                                            <label class="label">How much bet do you want to place: </label>
+                                            <div class="control">
+                                                <input class="input" type="text" placeholder="enter your bet" x-model="bet">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tile is-parent">
+                                        <div class="tile is-child">
+                                            <div class="box field" style="width: 200px;">
+                                                <label class="label">Your balance:</label>
+                                                <div class="control">
+                                                    <input class="input is-disabled" type="text" x-model="balance" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tile is-child">
+                                            <div class="box field" style="width: 200px;">
+                                                <label class="label">Prize pool:</label>
+                                                <div class="control">
+                                                    <input class="input is-disabled" type="text" x-model="prizePool" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tile is-parent">
+                                        <div class="tile is-child">
+                                            <div class="box">
+                                                <label class="label" x-text="`Special Prize (round ID = ${roundID})`"></label>
+                                                <template x-for="index in [0, 1, 2]">
+                                                    <div :class="`is-inline-block slot-digit-base slot-digit-${luckyNumber[index]}`" style="width: 64px; height: 64px"></div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column has-text-centered is-narrow">
+                            <div class="is-inline-flex">
+                                <!-- left: slot machine -->
+                                <div class="is-relative">
+                                    <figure class="image">
+                                        <!-- TODO: responsive height -->
+                                        <img src="{{ url_for('static', path='/slot-machine.svg') }}" style="width: 500px;">
+                                    </figure>
+
+                                    <template x-for="[index, numOfTimes, totalDuration] in [[0, 1, 3], [1, 3, 5], [2, 5, 7.5]]">
+                                        <template x-for="digit in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]">
+                                            <style x-data="{ offset: [10, 11, 2, 3, 4, 5, 6, 7, 8, 9][digit] }" x-html="`
+                                                .slot-digit-${index}-${digit}-animation {
+                                                    animation: slot-digit-animation-keyframes ${animationDuration(totalDuration, offset, numOfTimes)}s linear 0s ${numOfTimes} forwards;
+                                                }
+
+                                                .slot-digit-${index}-${digit}-transition {
+                                                    background-position-y: calc(100% * ${offset} / 9);
+                                                    transition: background-position-y ${transitionDuration(totalDuration, offset, numOfTimes)}s ease-out;
+                                                }
+                                            `"></style>
+                                        </template>
+                                    </template>
+                                    <style>
+                                        .slot-digit-base {
+                                            background-size: cover;
+                                            background-image: url('{{ url_for('static', path='/slot-digit.svg') }}');
+                                            transition: background-position-y 1s ease-out;
+                                        }
+                                        .slot-digit-absolute {
+                                            position: absolute;
+                                            top: 28%;
+                                            width: 24%;
+                                            height: 24%;
+                                        }
+                                        @keyframes slot-digit-animation-keyframes {
+                                            0% { background-position-y: calc(100% * 0 / 9); }
+                                            100% { background-position-y: calc(100% * 10 / 9); }
+                                        }
+                                        .slot-digit-0 { background-position-y: calc(100% * 0 / 9); }
+                                        .slot-digit-1 { background-position-y: calc(100% * 1 / 9); }
+                                        .slot-digit-2 { background-position-y: calc(100% * 2 / 9); }
+                                        .slot-digit-3 { background-position-y: calc(100% * 3 / 9); }
+                                        .slot-digit-4 { background-position-y: calc(100% * 4 / 9); }
+                                        .slot-digit-5 { background-position-y: calc(100% * 5 / 9); }
+                                        .slot-digit-6 { background-position-y: calc(100% * 6 / 9); }
+                                        .slot-digit-7 { background-position-y: calc(100% * 7 / 9); }
+                                        .slot-digit-8 { background-position-y: calc(100% * 8 / 9); }
+                                        .slot-digit-9 { background-position-y: calc(100% * 9 / 9); }
+                                    </style>
+                                    <div class="is-inline-block slot-digit-base slot-digit-absolute" style="left: 9%" x-init="animationManager.addSlotDigitAnimation($el, 'slot-digit', 0)"></div>
+                                    <div class="is-inline-block slot-digit-base slot-digit-absolute" style="left: 38%" x-init="animationManager.addSlotDigitAnimation($el, 'slot-digit', 1)"></div>
+                                    <div class="is-inline-block slot-digit-base slot-digit-absolute" style="left: 67%" x-init="animationManager.addSlotDigitAnimation($el, 'slot-digit', 2)"></div>
+
+                                    <style>
+                                        .rainbow-box {
+                                            position: absolute;
+                                            top: 15%;
+                                            left: 1.7%;
+                                            width: 96.6%;
+                                            height: 47%;
+                                            border: dotted 25px #b7f958;
+                                        }
+
+                                        .rainbow-box-animation {
+                                            animation: rainbow-box-animation-keyframes 0.3s linear 0s infinite;
+                                        }
+
+                                        @keyframes rainbow-box-animation-keyframes {
+                                            0% { border-color: #b7f958; }
+                                            20% { border-color: #b299f0; }
+                                            40% { border-color: #ffa5e0; }
+                                            60% { border-color: #ffc377; }
+                                            80% { border-color: #feff71; }
+                                            100% { border-color: #b7f958; }
+                                        }
+                                    </style>
+                                    <div class="is-inline-block rainbow-box" x-init="animationManager.addRainbowBoxAnimation($el, 'rainbow-box-animation')"></div>
+                                </div>
+
+                                <div class="is-align-self-end is-flex is-flex-direction-column-reverse">
+                                    <!-- lower right: arm (static) -->
+                                    <figure class="image">
+                                        <!-- TODO: responsive height -->
+                                        <img src="{{ url_for('static', path='/spin-bottom.svg') }}" style="width: 130px;">
+                                    </figure>
+
+                                    <!-- mid right: arm (spin) -->
+                                    <figure class="image is-clickable" @click="spinSlotMachine()">
+                                        <style>
+                                            .spin-arm {
+                                                transition: height 0.3s ease-in-out;
+                                            }
+
+                                            .spin-arm-animation {
+                                                height: 90px !important;
+                                            }
+                                        </style>
+
+                                        <!-- TODO: responsive height -->
+                                        <!-- Note that in order to change the aspect ratio (i.e. change height while maintaining width) of an svg image, you need to add `preserveAspectRatio="none"` in the svg file. -->
+                                        <img src="{{ url_for('static', path='/spin-stick.svg') }}" style="width: 130px; height: 150px" class="spin-arm" x-init="animationManager.addSpinArmAnimation($el, 'spin-arm-animation')">
+                                    </figure>
+
+                                    <!-- upper right: ball (spin) -->
+                                    <figure class="image is-clickable" @click="spinSlotMachine()">
+                                        <!-- TODO: responsive height -->
+                                        <img src="{{ url_for('static', path='/spin-ball.svg') }}" style="width: 130px;">
+                                    </figure>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+</body>
+</html>

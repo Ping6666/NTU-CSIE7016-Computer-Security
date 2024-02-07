@@ -1,0 +1,1 @@
+The flag is known to only one person, who is a trusted confidant of your first subject. It' s unknown how or why the two know each other, but your task will be to find the flag by finding subject 2 through subject 1. All we know about subject 1 is this information: @free_jack_marigold@mastodon.social

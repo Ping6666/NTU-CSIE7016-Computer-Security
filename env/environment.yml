@@ -1,0 +1,16 @@
+name: ctf
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.10
+  # --- linux only --- #
+  - sage
+  - yasm
+  - gdb_server_linux-64
+  # ------------------ #
+  - pip
+  - pip:
+    - --requirement requirements.txt  

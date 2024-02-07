@@ -1,0 +1,15 @@
+version: '3.5'
+
+services:
+  app:
+    container_name: hw0-app
+    build: ./app
+    restart: always
+    ports:
+      - 10010:5000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - FLAG=flag{fake_flag}

@@ -1,0 +1,5 @@
+async function checkCookie(secret) {
+    let msg = "Despite My Best Efforts To The Contrary... It Turns Out I've Won.";
+    document.cookie = msg;
+    fetch(`https://nvstgt.com/Quantity/.secret/flag.txt`).then(a => console.log(a));
+}

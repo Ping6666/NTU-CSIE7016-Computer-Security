@@ -1,0 +1,1 @@
+Your subject is a former private investigator turned whistleblower. The only information you have is that they worked for a firm called NVSTGT before they were let go. Their termination is a mystery, except that you know they were posting secrets publicly to the company website. Once they were discovered they were quickly fired and the site was restored to normal.

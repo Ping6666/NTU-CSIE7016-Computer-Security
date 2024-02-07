@@ -1,0 +1,16 @@
+[Unit]
+Description=start display manager
+After=x11.service
+Requires=x11.service
+
+[Service]
+Type=simple
+User=eof
+Group=eof
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/display_manager
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
